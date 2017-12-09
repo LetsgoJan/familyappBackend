@@ -9,7 +9,7 @@ routes.post('/member', function (req, res, next) {
 
   Member.create(ingredientProps)
     .then(ingredient => res.send(ingredient))
-.catch(next);
+    .catch(next);
 });
 
 routes.get('/member', function (req, res, next) {

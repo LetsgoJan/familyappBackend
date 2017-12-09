@@ -80,7 +80,7 @@ app.use(function (err, req, res, next) {
         code: err.code,
         name: err.name,
         status: err.status
-    };
+    }
     res.status(401).send(error);
 });
 
