@@ -3,7 +3,7 @@
 //
 var http = require('http');
 var express = require('express');
-var bodyParser = require('body-parser')
+var bodyParser = require('body-parser');
 var logger = require('morgan');
 var mongodb = require('./config/mongo.db');
 // var auth_routes_v1 = require('./api/authentication.routes.v1');

@@ -1,5 +1,6 @@
 var express = require('express');
 var routes = express.Router();
+var mongodb = require('../config/mongo.db');
 var Member = require('../model/member.model').Member;
 
 routes.post('/member', function (req, res, next) {
