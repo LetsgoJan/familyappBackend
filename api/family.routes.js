@@ -2,13 +2,14 @@ var express = require('express');
 var routes = express.Router();
 var mongodb = require('../config/mongo.db');
 var Family = require('../model/family.model').Family;
-var session = require('../server');
+var session = require('../neo4j');
 
 routes.post('/family', function (req, res, next) {
 
     res.contentType('application/json');
     const familyProps = req.body;
 
+    console.log(familyProps.name);
     session
         .run("CREATE(n:Family {name:{name}) RETURN n.name",{
             "name":req.body.name
