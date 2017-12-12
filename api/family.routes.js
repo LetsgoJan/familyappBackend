@@ -11,7 +11,7 @@ routes.post('/family', function (req, res, next) {
 
     console.log(familyProps.name);
     session
-        .run("CREATE(n:Family {name:{name}) RETURN n.name",{
+        .run("CREATE(n:Family {name:{name}}) RETURN n.name",{
             "name":req.body.name
         })
         .then(function (result) {

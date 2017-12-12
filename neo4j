@@ -3,16 +3,5 @@ var neo4j = require('neo4j-driver').v1;
 var driver = neo4j.driver("bolt://hobby-amliolnkjhecgbkenjccfial.dbs.graphenedb.com:24786", neo4j.auth.basic("producer", "b.ghivvm1nGbiM.Ta6HKUO3aHPeZ3OQ"));
 var session = driver.session();
 
-app.get('/', function (req, res) {
-    session
-        .run("CREATE(n:Family {name:family.name}) RETURN n.name")
-        .then(function (result) {
-            console.log(result);
-        })
-        .catch(function (error) {
-            console.log(error)
-
-        })
-});
 
 module.exports = session;
