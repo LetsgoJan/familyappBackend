@@ -5,10 +5,10 @@ var Member = require('../model/member.model').Member;
 
 routes.post('/member', function (req, res, next) {
   res.contentType('application/json');
-  const ingredientProps = req.body;
+  const memberId = req.body;
 
-  Member.create(ingredientProps)
-    .then(ingredient => res.send(ingredient))
+  Member.create(memberId)
+    .then(member => res.send(member))
     .catch(next);
 });
 
@@ -24,9 +24,9 @@ routes.get('/member', function (req, res, next) {
 
 routes.get('/member/:id', function (req, res, next) {
   res.contentType('application/json');
-  const ingredientId = req.params.id;
+  const memberId = req.params.id;
 
-  Member.findOne({_id : ingredientId})
+  Member.findOne({_id : memberId})
     .then ((result) => {
     res.send(result);
 })
@@ -35,21 +35,21 @@ routes.get('/member/:id', function (req, res, next) {
 
 routes.put('/member/:id', function (req, res, next) {
   res.contentType('application/json');
-  const ingredientProps = req.body;
-  const ingredientId = req.params.id;
+  const memberProps = req.body;
+  const memberId = req.params.id;
 
-  Member.findByIdAndUpdate({_id : ingredientId}, ingredientProps)
-    .then(() => Member.findById({_id : ingredientId}))
-.then((ingredient) => res.send(ingredient))
+  Member.findByIdAndUpdate({_id : memberId}, memberProps)
+    .then(() => Member.findById({_id : memberId}))
+.then((member) => res.send(member))
 .catch(next);
 });
 
 routes.delete('/member/:id', function (req, res, next) {
   res.contentType('application/json');
-  const ingredientId = req.params.id;
+  const memberId = req.params.id;
 
-  Member.findByIdAndRemove({_id : ingredientId})
-    .then(res.send({msg:'item deleted'}))
+  Member.findByIdAndRemove({_id : memberId})
+    .then(res.send({'item deleted': String}))
     .catch(next);
 });
 
