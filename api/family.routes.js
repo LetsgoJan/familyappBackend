@@ -2,7 +2,7 @@ var express = require('express');
 var routes = express.Router();
 var mongodb = require('../config/mongo.db');
 var Family = require('../model/family.model').Family;
-var session = require('../server').session;
+var session = require('../server');
 
 routes.post('/family', function (req, res, next) {
 
