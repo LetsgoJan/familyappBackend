@@ -1,7 +1,5 @@
 var express = require('express');
 var routes = express.Router();
-var mongodb = require('../config/mongo.db');
-var Family = require('../model/family.model').Family;
 var session = require('../neo4j');
 
 routes.post('/family', function (req, res, next) {
@@ -10,7 +8,32 @@ routes.post('/family', function (req, res, next) {
     const familyProps = req.body;
 
     session
-        .run("CREATE(n:Family {name:{name}}) RETURN n.name",{
+        .run("CREATE(n:Family {name:{name}) RETURN n.name",{
+            "name":req.body.name
+        })
+        .then(function (result) {
+            res.send(result);
+        })
+        .catch(function (error) {
+            console.log(error)
+        });
+
+    // res.contentType('application/json');
+    // const familyProps = req.body;
+    //
+    // Family.create(familyProps)
+    //     .then(family => res.send(family))
+    //     .catch(next);
+});
+
+routes.post('/family:name', function (req, res, next) {
+
+    res.contentType('application/json');
+    const familyProps = req.body;
+    const familyName = req.params.name;
+
+    session
+        .run("MATCH(n:Family {name:{name}}) SET n.members",{
             "name":req.body.name
         })
         .then(function (result) {
@@ -49,7 +72,6 @@ routes.get('/family', function (req, res, next) {
 
 routes.get('/family/:name', function (req, res, next) {
     res.contentType('application/json');
-    const familyName = req.params.name;
 
     session
         .run("MATCH(n:Family {name:{familyName}}) RETURN n.name",{

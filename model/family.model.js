@@ -6,11 +6,6 @@ const familySchema = new Schema({
     name: {
         type: String,
         required: true
-    },
-
-    members: {
-        type: [memberSchema],
-        required: true
     }
 });
 
