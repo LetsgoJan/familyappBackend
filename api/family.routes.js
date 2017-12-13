@@ -9,7 +9,6 @@ routes.post('/family', function (req, res, next) {
     res.contentType('application/json');
     const familyProps = req.body;
 
-    console.log(familyProps.name);
     session
         .run("CREATE(n:Family {name:{name}}) RETURN n.name",{
             "name":req.body.name
@@ -19,7 +18,6 @@ routes.post('/family', function (req, res, next) {
         })
         .catch(function (error) {
             console.log(error)
-
         });
 
     // res.contentType('application/json');
@@ -33,42 +31,82 @@ routes.post('/family', function (req, res, next) {
 routes.get('/family', function (req, res, next) {
     res.contentType('application/json');
 
-    Family.find()
-        .then ((result) => {
+    session
+        .run("MATCH(n:Family) RETURN n.name")
+        .then(function (result) {
             res.send(result);
         })
-        .catch(next);
+        .catch(function (error) {
+            console.log(error)
+        });
+
+    // Family.find()
+    //     .then ((result) => {
+    //         res.send(result);
+    //     })
+    //     .catch(next);
 });
 
-routes.get('/family/:id', function (req, res, next) {
+routes.get('/family/:name', function (req, res, next) {
     res.contentType('application/json');
-    const familyId = req.params.id;
+    const familyName = req.params.name;
 
-    Family.findOne({_id : familyId})
-        .then ((result) => {
+    session
+        .run("MATCH(n:Family {name:{familyName}}) RETURN n.name",{
+            "familyName" : familyName
+        })
+        .then(function (result) {
             res.send(result);
         })
-        .catch(next);
+        .catch(function (error) {
+            console.log(error)
+        });
+    // Family.findOne({_id : familyId})
+    //     .then ((result) => {
+    //         res.send(result);
+    //     })
+    //     .catch(next);
 });
 
-routes.put('/family/:id', function (req, res, next) {
+routes.put('/family/:name', function (req, res, next) {
     res.contentType('application/json');
     const familyProps = req.body;
-    const familyId = req.params.id;
+    const familyOldName = req.params.name;
 
-    Family.findByIdAndUpdate({_id : familyId}, familyProps)
-        .then(() => Family.findById({_id : familyId}))
-        .then((family) => res.send(family))
-        .catch(next);
+    session
+        .run("MATCH(n:Family {name:{familyOldName}}) SET n.name = {familyNewName} RETURN n.name",{
+            "familyOldName" : familyOldName,
+            "familyNewName" : familyProps.name
+        })
+        .then(function (result) {
+            res.send(result);
+        })
+        .catch(function (error) {
+            console.log(error)
+        }, next);
+    // Family.findByIdAndUpdate({_id : familyId}, familyProps)
+    //     .then(() => Family.findById({_id : familyId}))
+    //     .then((family) => res.send(family))
+    //     .catch(next);
 });
 
-routes.delete('/family/:id', function (req, res, next) {
+routes.delete('/family/:name', function (req, res, next) {
     res.contentType('application/json');
-    const familyId = req.params.id;
+    const familyName = req.params.name;
 
-    Family.findByIdAndRemove({_id : familyId})
-        .then(res.send({'item deleted': String}))
-        .catch(next);
+    session
+        .run("MATCH(n:Family {name:{familyName}}) DELETE n RETURN n",{
+            "familyName" : familyName
+        })
+        .then(function (result) {
+            res.send(result);
+        })
+        .catch(function (error) {
+            console.log(error)
+        }, next);
+    // Family.findByIdAndRemove({_id : familyId})
+    //     .then(res.send({'item deleted': String}))
+    //     .catch(next);
 });
 
 module.exports = routes;
