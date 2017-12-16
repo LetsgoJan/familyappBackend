@@ -26,31 +26,6 @@ routes.post('/family', function (req, res, next) {
     //     .catch(next);
 });
 
-routes.post('/family:name', function (req, res, next) {
-
-    res.contentType('application/json');
-    const familyProps = req.body;
-    const familyName = req.params.name;
-
-    session
-        .run("MATCH(n:Family {name:{name}}) SET n.members",{
-            "name":req.body.name
-        })
-        .then(function (result) {
-            res.send(result);
-        })
-        .catch(function (error) {
-            console.log(error)
-        });
-
-    // res.contentType('application/json');
-    // const familyProps = req.body;
-    //
-    // Family.create(familyProps)
-    //     .then(family => res.send(family))
-    //     .catch(next);
-});
-
 routes.get('/family', function (req, res, next) {
     res.contentType('application/json');
 
@@ -130,5 +105,7 @@ routes.delete('/family/:name', function (req, res, next) {
     //     .then(res.send({'item deleted': String}))
     //     .catch(next);
 });
+
+
 
 module.exports = routes;

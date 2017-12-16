@@ -9,6 +9,7 @@ var mongodb = require('./config/mongo.db');
 // var auth_routes_v1 = require('./api/authentication.routes.v1');
 var memberRoutes = require('./api/member.routes');
 var familyRoutes = require('./api/family.routes');
+var familyMemberRoutes = require('./api/familyMember.routes');
 var config = require('./config/env/env');
 // var expressJWT = require('express-jwt');
 
@@ -70,7 +71,7 @@ app.use(function (req, res, next) {
 // Installeer de routers
 // app.use('/api/v1', auth_routes_v1);
 // app.use('/api/v1', userroutes_v1);
- app.use('/api', familyRoutes, memberRoutes);
+ app.use('/api', familyRoutes, memberRoutes, familyMemberRoutes);
 
 // Errorhandler voor express-jwt errors
 // Wordt uitgevoerd wanneer err != null; anders door naar next().
