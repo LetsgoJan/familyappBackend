@@ -5,7 +5,6 @@ var session = require('../neo4j');
 routes.post('/family', function (req, res, next) {
 
     res.contentType('application/json');
-    const familyProps = req.body;
 
     session
         .run("CREATE(n:Family {name:{name}) RETURN n.name",{
@@ -16,7 +15,7 @@ routes.post('/family', function (req, res, next) {
         })
         .catch(function (error) {
             console.log(error)
-        });
+        },next);
 
     // res.contentType('application/json');
     // const familyProps = req.body;
@@ -36,7 +35,7 @@ routes.get('/family', function (req, res, next) {
         })
         .catch(function (error) {
             console.log(error)
-        });
+        },next);
 
     // Family.find()
     //     .then ((result) => {
@@ -57,7 +56,7 @@ routes.get('/family/:name', function (req, res, next) {
         })
         .catch(function (error) {
             console.log(error)
-        });
+        },next);
     // Family.findOne({_id : familyId})
     //     .then ((result) => {
     //         res.send(result);
