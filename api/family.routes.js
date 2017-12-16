@@ -7,7 +7,7 @@ routes.post('/family', function (req, res, next) {
     res.contentType('application/json');
 
     session
-        .run("CREATE(n:Family {name:{name}) RETURN n.name",{
+        .run("CREATE(n:Family {name:{name}}) RETURN n.name",{
             "name":req.body.name
         })
         .then(function (result) {
